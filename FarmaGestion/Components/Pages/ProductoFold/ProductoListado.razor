@@ -1,0 +1,66 @@
+﻿@using FarmaGestion.Entities
+@rendermode InteractiveServer
+
+<h3>Listado de Productos</h3>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Precio</th>
+            @if (ColumnasAdicionales != null)
+            {
+                <th></th>
+            }
+            @if (MostrarBotones)
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @if (Datos != null)
+        {
+            @foreach (var item in Datos)
+            {
+                <tr>
+                    <td>@item.Codigo</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Tipo</td>
+                    <td>@item.Precio</td>
+                    @if (ColumnasAdicionales != null)
+                    {
+                        <td>
+                            @ColumnasAdicionales
+                        </td>
+                    }
+                    @if (MostrarBotones)
+                    {
+                        <td>
+                            <button type="button" class="btn btn-link" @onclick="() => modificarEvent.InvokeAsync(item)">modificar</button>
+                            <button type="button" class="btn btn-link" @onclick="() => eliminarEvent.InvokeAsync(item)">eliminar</button>
+                            <button type="button" class="btn btn-link">Ver</button>
+                        </td>
+                    }
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public List<Producto> Datos { get; set; }
+    [Parameter]
+    public bool MostrarBotones { get; set; } = false;
+    [Parameter]
+    public RenderFragment ColumnasAdicionales { get; set; } = null;
+    [Parameter]
+    public EventCallback<Producto> modificarEvent { get; set; }
+    [Parameter]
+    public EventCallback<Producto> eliminarEvent { get; set; }
+}

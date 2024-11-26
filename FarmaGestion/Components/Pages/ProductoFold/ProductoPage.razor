@@ -1,0 +1,13 @@
+﻿@page "/producto"
+@using FarmaGestion.Entities
+@using FarmaGestion.Components.Pages.ClienteFold
+@inject NavigationManager navigation
+@rendermode InteractiveServer
+
+<h3>ProductoPage</h3>
+
+<ProductoModal @ref="modal" data="productoModif" GuardarEventCallback="Guardar" Modificando="modificando"></ProductoModal>
+
+<button type="button" class="btn btn-primary" @onclick="NuevoProducto">Nuevo Producto</button>
+
+<ProductoListado Datos="@ProductosList" MostrarBotones="true" modificarEvent="Modificar" eliminarEvent="Eliminar"></ProductoListado>

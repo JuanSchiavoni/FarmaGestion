@@ -6,36 +6,33 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">@(Modificando ? "Modificando" : "Nuevo") Cliente</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">@(Modificando ? "Modificando" : "Nuevo") Producto</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="Close"></button>
             </div>
             <div class="modal-body">
-                @if(data != null)
+                @if (data != null)
                 {
                     <form>
                         <div class="mb-3">
-                            <label for="recipient-dni" class="col-form-label">DNI:</label>
-                            <input type="number" class="form-control" id="recipient-dni" @bind="data.DNI">
+                            <label for="recipient-codigo" class="col-form-label">DNI:</label>
+                            <input type="number" class="form-control" id="recipient-codigo" @bind="data.Codigo">
                         </div>
                         <div class="mb-3">
-                            <label for="message-nombre" class="col-form-label">Nombre:</label>
+                            <label for="message-nombre" class="col-form-label">Nombre del Producto:</label>
                             <input type="text" class="form-control" id="message-nombre" @bind="data.Nombre">
                         </div>
                         <div class="mb-3">
-                            <label for="message-apellido" class="col-form-label">Apellido:</label>
-                            <input type="text" class="form-control" id="message-apellido" @bind="data.Apellido">
+                            <label for="message-tipo" class="col-form-label">Tipo:</label>
+                            <select class="form-control" id="message-tipo" @bind="data.Tipo">
+                                <option value="Medicacion">Medicacion</option>
+                                <option value="Perfumeria">Perfumeria</option>
+                                <option value="Cosmeticos">Cosmeticos</option>
+                                <option value="Otros">Otros</option>
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="message-direccion" class="col-form-label">Direccion:</label>
-                            <input type="text" class="form-control" id="message-direccion" @bind="data.Direccion">
-                        </div>
-                        <div class="mb-3">
-                            <label for="message-telefono" class="col-form-label">Numero de Telefono:</label>
-                            <input type="number" class="form-control" id="message-telefono" @bind="data.NumeroTelefono">
-                        </div>
-                        <div class="mb-3">
-                            <label for="message-obrasocial" class="col-form-label">Obra Social:</label>
-                            <input type="text" class="form-control" id="message-obrasocial" @bind="data.ObraSocial">
+                            <label for="message-precio" class="col-form-label">Precio:</label>
+                            <input type="number" class="form-control" id="message-precio" @bind="data.Precio">
                         </div>
                     </form>
                 }
@@ -50,7 +47,7 @@
 
 @code {
     [Parameter]
-    public Cliente? data { get; set; }
+    public Producto? data { get; set; }
     [Parameter]
     public EventCallback GuardarEventCallback { get; set; }
     [Parameter]
