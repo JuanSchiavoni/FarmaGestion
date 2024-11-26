@@ -1,0 +1,13 @@
+﻿@page "/Cliente"
+@using FarmaGestion.Entities
+@using FarmaGestion.Components.Pages.ClienteFold
+@inject NavigationManager navigation
+@rendermode InteractiveServer
+
+<h3>ClientePage</h3>
+
+<ClienteModal @ref="modal" data="clienteMod" GuardarEventCallback="Guardar" Modificando="modificando"></ClienteModal>
+
+<button type="button" class="btn btn-primary" @onclick="NuevoCliente">Nuevo</button>
+
+<ClienteListado Datos="@ClientesList" MostrarBotones="true" modificarEvent="Modificar" eliminarEvent="Eliminar"></ClienteListado>

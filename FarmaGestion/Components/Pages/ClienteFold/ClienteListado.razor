@@ -1,0 +1,70 @@
+﻿@using FarmaGestion.Entities
+@rendermode InteractiveServer
+
+<h3>Listado de clientes</h3>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Direccion</th>
+            <th>Obra Social</th>
+            <th>Telefono</th>
+            @if (ColumnasAdicionales != null)
+            {
+                <th></th>
+            }
+            @if (MostrarBotones)
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @if(Datos != null)
+        {
+            @foreach (var item in Datos)
+            {
+                <tr>
+                    <td>@item.DNI</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Apellido</td>
+                    <td>@item.Direccion</td>
+                    <td>@item.NumeroTelefono</td>
+                    <td>@item.ObraSocial</td>
+                    @if (ColumnasAdicionales != null)
+                    {
+                        <td>
+                            @ColumnasAdicionales
+                        </td>
+                    }
+                    @if (MostrarBotones)
+                    {
+                        <td>
+                            <button type="button" class="btn btn-link" @onclick="() => modificarEvent.InvokeAsync(item)">modificar</button>
+                            <button type="button" class="btn btn-link" @onclick="() => eliminarEvent.InvokeAsync(item)">eliminar</button>
+                            <button type="button" class="btn btn-link">Ver</button>
+                        </td>
+                    }
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public List<Cliente> Datos { get; set; }
+    [Parameter]
+    public bool MostrarBotones { get; set; } = false;
+    [Parameter]
+    public RenderFragment ColumnasAdicionales { get; set; } = null;
+    [Parameter]
+    public EventCallback<Cliente> modificarEvent { get; set; }
+    [Parameter]
+    public EventCallback<Cliente> eliminarEvent { get; set; }
+}
