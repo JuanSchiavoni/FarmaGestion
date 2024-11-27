@@ -1,6 +1,5 @@
 using FarmaGestion.Components;
 using FarmaGestion.Components.Account;
-using FarmaGestion.Context;
 using FarmaGestion.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'CursosAppContextConnection' not found."); ;
 
 
-builder.Services.AddDbContext<FarmaGestion.Context.FarmaGestionContext>(options =>
+builder.Services.AddDbContext<FarmaGestionContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
@@ -31,7 +30,7 @@ builder.Services.AddAuthentication(options =>
     })
     .AddIdentityCookies();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services.AddDbContext<FarmaGestion.Data.FarmaGestionContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

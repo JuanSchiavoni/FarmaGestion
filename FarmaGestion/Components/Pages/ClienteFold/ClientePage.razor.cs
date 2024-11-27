@@ -1,9 +1,14 @@
-﻿using FarmaGestion.Model;
+﻿using FarmaGestion.Data;
+using FarmaGestion.Model;
+using Microsoft.AspNetCore.Components;
 
 namespace FarmaGestion.Components.Pages.ClienteFold
 {
     public partial class ClientePage
     {
+        [Inject]
+        private FarmaGestionContext context {  get; set; }
+
         private bool modificando = false;
 
         private string Error = "";
@@ -21,9 +26,20 @@ namespace FarmaGestion.Components.Pages.ClienteFold
         private int descuento4 = 0;
         private string tipoDescuento = "";
 
-        private List<Cliente> ClientesList = new();
+        private List<Cliente>? ClientesList;
 
         private ClienteModal modal = default;
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            GetData();
+        }
+
+        private void GetData()
+        {
+            ClientesList = context.Clientes.ToList();
+        }
 
         private void NuevoCliente()
         {
@@ -41,10 +57,16 @@ namespace FarmaGestion.Components.Pages.ClienteFold
             {
                 if (!modificando)
                 {
-                    ClientesList.Add(clienteMod);
+                    context.Clientes.Add(clienteMod);
+                    context.SaveChanges();
+
+                    GetData();
                 }
                 else
                 {
+                    context.Entry(clienteMod).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    context.SaveChanges();
+                    GetData();
                     modificando = false;
                 }
 
@@ -63,7 +85,9 @@ namespace FarmaGestion.Components.Pages.ClienteFold
 
         private void Eliminar(Cliente clienteEliminar)
         {
-            ClientesList.Remove(clienteEliminar);
+            context.Clientes.Remove(clienteEliminar);
+            context.SaveChanges();
+            GetData();
         }
     }
 }

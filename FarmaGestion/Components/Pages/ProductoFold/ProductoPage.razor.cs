@@ -1,9 +1,15 @@
-﻿using FarmaGestion.Model;
+﻿using FarmaGestion.Components.Pages.ClienteFold;
+using FarmaGestion.Data;
+using FarmaGestion.Model;
+using Microsoft.AspNetCore.Components;
 
 namespace FarmaGestion.Components.Pages.ProductoFold
 {
     public partial class ProductoPage
     {
+        [Inject]
+        private FarmaGestionContext context {  get; set; }
+
         private bool modificando = false;
 
         private string Error = "";
@@ -14,7 +20,7 @@ namespace FarmaGestion.Components.Pages.ProductoFold
         private string Tipo = "";
         private decimal Precio = 0;
 
-        private List<Producto> ProductosList = new();
+        private List<Producto>? ProductosList;
 
         private ProductoModal modal = default;
 
@@ -22,6 +28,17 @@ namespace FarmaGestion.Components.Pages.ProductoFold
         {
             productoModif = new Producto();
             modal.Open();
+        }
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            GetData();
+        }
+
+        private void GetData()
+        {
+            ProductosList = context.Productos.ToList();
         }
 
         private void Guardar()
@@ -34,10 +51,15 @@ namespace FarmaGestion.Components.Pages.ProductoFold
             {
                 if (!modificando)
                 {
-                    ProductosList.Add(productoModif);
+                    context.Productos.Add(productoModif);
+                    context.SaveChanges();
+                    GetData();
                 }
                 else 
                 {
+                    context.Entry(productoModif).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    context.SaveChanges();
+                    GetData();
                     modificando = false;
                 }
 
@@ -56,7 +78,9 @@ namespace FarmaGestion.Components.Pages.ProductoFold
 
         private void Eliminar(Producto producto)
         {
-            ProductosList.Remove(producto);
+            context.Productos.Remove(producto);
+            context.SaveChanges();
+            GetData();
         }
     }
 }

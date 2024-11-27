@@ -9,6 +9,7 @@ namespace FarmaGestion.Data
         public FarmaGestionContext(DbContextOptions<FarmaGestionContext> options) : base(options) { }
 
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Producto> Productos { get; set; }
     }
 
 }
