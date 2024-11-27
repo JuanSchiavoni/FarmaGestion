@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @using FarmaGestion.Data
 
-@inject SignInManager<ApplicationUser> SignInManager
+@inject SignInManager<FarmaGestionUser> SignInManager
 @inject IdentityRedirectManager RedirectManager
 
 @if (externalLogins.Length == 0)

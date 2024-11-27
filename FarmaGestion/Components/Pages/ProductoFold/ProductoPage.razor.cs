@@ -1,4 +1,4 @@
-﻿using FarmaGestion.Entities;
+﻿using FarmaGestion.Model;
 
 namespace FarmaGestion.Components.Pages.ProductoFold
 {

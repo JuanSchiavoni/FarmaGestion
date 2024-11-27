@@ -3,8 +3,8 @@
 @using Microsoft.AspNetCore.Identity
 @using FarmaGestion.Data
 
-@inject UserManager<ApplicationUser> UserManager
-@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<FarmaGestionUser> UserManager
+@inject SignInManager<FarmaGestionUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
 @inject ILogger<ResetAuthenticator> Logger
