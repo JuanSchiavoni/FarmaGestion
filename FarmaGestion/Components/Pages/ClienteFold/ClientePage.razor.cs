@@ -16,8 +16,13 @@ namespace FarmaGestion.Components.Pages.ClienteFold
         private string direccion = "";
         private long numTel = 0;
         private string obraSoc = "";
+        private int descuento1 = 0;
+        private int descuento2 = 0;
+        private int descuento3 = 0;
+        private int descuento4 = 0;
+        private string tipoDescuento = "";
 
-        private List<Cliente> ClientesList;
+        private List<Cliente> ClientesList = new();
 
         private ClienteModal modal = default;
 

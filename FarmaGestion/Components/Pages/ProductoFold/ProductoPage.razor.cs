@@ -14,7 +14,7 @@ namespace FarmaGestion.Components.Pages.ProductoFold
         private string Tipo = "";
         private decimal Precio = 0;
 
-        private List<Producto> ProductosList;
+        private List<Producto> ProductosList = new();
 
         private ProductoModal modal = default;
 

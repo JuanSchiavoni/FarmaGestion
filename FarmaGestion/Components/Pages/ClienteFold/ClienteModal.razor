@@ -37,6 +37,30 @@
                             <label for="message-obrasocial" class="col-form-label">Obra Social:</label>
                             <input type="text" class="form-control" id="message-obrasocial" @bind="data.ObraSocial">
                         </div>
+                        <div class="mb-3">
+                            <label for="message-descuento1" class="col-form-label">Descuento 1:</label>
+                            <input type="number" class="form-control" id="message-descuento1" @bind="data.Descuento1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-descuento2" class="col-form-label">Descuento 2:</label>
+                            <input type="number" class="form-control" id="message-descuento2" @bind="data.Descuento2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-descuento3" class="col-form-label">Descuento 3:</label>
+                            <input type="number" class="form-control" id="message-descuento3" @bind="data.Descuento3">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-descuento4" class="col-form-label">Descuento 4 ($):</label>
+                            <input type="number" class="form-control" id="message-descuento4" @bind="data.Descuento4">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="message-tipodesc" class="col-form-label">Tipo de descuento(% o $):</label>
+                            <select class="form-control" id="message-tipo" @bind="data.TipoDescuento">
+                                <option value="Porcentaje">Porcentaje</option>
+                                <option value="Dinero">Dinero</option>
+                            </select>
+                        </div>
                     </form>
                 }
             </div>

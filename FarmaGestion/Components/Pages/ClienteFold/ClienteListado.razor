@@ -12,6 +12,11 @@
             <th>Direccion</th>
             <th>Obra Social</th>
             <th>Telefono</th>
+            <th>Descuento 1</th>
+            <th>Descuento 2</th>
+            <th>Descuento 3</th>
+            <th>Descuento 4 ($)</th>
+            <th>Tipo de descuento (% o $)</th>
             @if (ColumnasAdicionales != null)
             {
                 <th></th>
@@ -34,6 +39,11 @@
                     <td>@item.Direccion</td>
                     <td>@item.NumeroTelefono</td>
                     <td>@item.ObraSocial</td>
+                    <td>@item.Descuento1</td>
+                    <td>@item.Descuento2</td>
+                    <td>@item.Descuento3</td>
+                    <td>@item.Descuento4</td>
+                    <td>@item.TipoDescuento</td>
                     @if (ColumnasAdicionales != null)
                     {
                         <td>
