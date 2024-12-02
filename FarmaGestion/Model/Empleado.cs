@@ -8,5 +8,6 @@
         public string Apellido { get; set; } = string.Empty;
         public string Direccion { get; set; } = string.Empty;
         public long NumeroTelefono { get; set; } = 0;
+        public string Email { get; set; } = string.Empty;
     }
 }

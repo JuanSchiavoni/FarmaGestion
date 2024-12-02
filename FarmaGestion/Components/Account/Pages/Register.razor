@@ -14,6 +14,7 @@
 @inject ILogger<Register> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject FarmaGestionContext context
 
 <PageTitle>Register</PageTitle>
 
@@ -28,7 +29,12 @@
             <hr />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <InputText @bind-Value="Input.UserName" class="form-control" autocomplete="username" aria-required="true"/>
+                <label for="username">Usuario</label>
+                <ValidationMessage For="() => Input.UserName" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" />
                 <label for="email">Email</label>
                 <ValidationMessage For="() => Input.Email" class="text-danger" />
             </div>
@@ -43,6 +49,20 @@
                 <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <br />
+            @if (clientesList != null)
+            {
+                <div class="form-floating mb-3">
+                    <InputSelect class="form-control" @bind-Value="Input.ClienteId" placeholder="Cliente">
+                        @foreach (var item in clientesList)
+                        {
+                            <option value="@item.ID">@($"{item.Nombre} {item.Apellido}")</option>
+                        }
+                    </InputSelect>
+                    <label for="cliente">Cliente</label>
+                    <ValidationMessage For="() => Input.ClienteId" class="text-danger" />
+                </div>
+            }
         </EditForm>
     </div>
     <div class="col-md-6 col-md-offset-2">
@@ -65,13 +85,22 @@
 
     private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
 
+    private List<Cliente>?  clientesList;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        clientesList = context.Clientes.ToList();
+    }
+
     public async Task RegisterUser(EditContext editContext)
     {
         var user = CreateUser();
 
-        await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+        await UserStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
         var emailStore = GetEmailStore();
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        user.Cliente = clientesList?.FirstOrDefault(p => p.ID == Input.ClienteId);
         var result = await UserManager.CreateAsync(user, Input.Password);
 
         if (!result.Succeeded)
@@ -127,6 +156,10 @@
     private sealed class InputModel
     {
         [Required]
+        [Display(Name = "Usuario")]
+        public string UserName { get; set; } = "";
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; } = "";
@@ -141,5 +174,8 @@
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = "";
+
+        [Display(Name = "Cliente")]
+        public Guid? ClienteId { get; set; }
     }
 }

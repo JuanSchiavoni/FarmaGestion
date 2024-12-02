@@ -35,7 +35,11 @@ builder.Services.AddDbContext<FarmaGestion.Data.FarmaGestionContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentityCore<FarmaGestionUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentityCore<FarmaGestionUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.User.RequireUniqueEmail = true;
+})
     .AddEntityFrameworkStores<FarmaGestionContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
