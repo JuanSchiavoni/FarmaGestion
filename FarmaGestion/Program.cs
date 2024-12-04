@@ -39,7 +39,9 @@ builder.Services.AddIdentityCore<FarmaGestionUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
     options.User.RequireUniqueEmail = true;
+    options.Password.RequireNonAlphanumeric = true;
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<FarmaGestionContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
@@ -71,4 +73,19 @@ app.MapRazorComponents<App>()
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
 
-app.Run();
+using (var scope = app.Services.CreateScope())
+{
+    string[] roles = ["Admin", "Cleitne", "Empleado", "Administrador"];
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    foreach( var role in roles)
+    {
+        if(!await roleManager.RoleExistsAsync(role))
+        {
+            IdentityRole roleRole = new IdentityRole(role);
+            await roleManager.CreateAsync(roleRole);
+        }
+    }
+}
+
+    app.Run();

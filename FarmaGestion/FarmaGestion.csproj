@@ -17,4 +17,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\Pages\OperacionFolder\" />
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmaGestion.Migrations
 {
     [DbContext(typeof(FarmaGestionContext))]
-    [Migration("20241202131631_ClientesEmail")]
-    partial class ClientesEmail
+    [Migration("20241202225231_FinalDb")]
+    partial class FinalDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

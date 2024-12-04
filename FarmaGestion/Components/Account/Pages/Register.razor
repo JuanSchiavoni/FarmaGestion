@@ -14,6 +14,7 @@
 @inject ILogger<Register> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject RoleManager<IdentityRole> RolesManager
 @inject FarmaGestionContext context
 
 <PageTitle>Register</PageTitle>
@@ -50,6 +51,16 @@
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
             <br />
+            <div class="form-floating mb-3">
+                <InputSelect class="form-control" @bind-Value="Input.Role" placeholder="Rol">
+                    @foreach (var item in rolesList)
+                    {
+                        <option value="@item.NormalizedName">@(item.Name)</option>
+                    }
+                </InputSelect>
+                <label for="rol">Rol</label>
+                <ValidationMessage For="() => Input.Role" class="text-danger" />
+            </div>
             @if (clientesList != null)
             {
                 <div class="form-floating mb-3">
@@ -86,11 +97,13 @@
     private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
 
     private List<Cliente>?  clientesList;
+    private List<IdentityRole> rolesList;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         clientesList = context.Clientes.ToList();
+        rolesList = RolesManager.Roles.ToList();
     }
 
     public async Task RegisterUser(EditContext editContext)
@@ -108,6 +121,8 @@
             identityErrors = result.Errors;
             return;
         }
+
+        await UserManager.AddToRoleAsync(user, Input.Role);
 
         Logger.LogInformation("User created a new account with password.");
 
@@ -174,6 +189,10 @@
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = "";
+
+        [Required]
+        [Display(Name = "Rol")]
+        public string Role { get; set; } = "";
 
         [Display(Name = "Cliente")]
         public Guid? ClienteId { get; set; }

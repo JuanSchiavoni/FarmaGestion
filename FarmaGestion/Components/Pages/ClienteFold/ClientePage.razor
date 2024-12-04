@@ -1,7 +1,7 @@
 ﻿@page "/Cliente"
 @using FarmaGestion.Components.Pages.ClienteFold
 @rendermode InteractiveServer
-@attribute [Authorize]
+@attribute [Authorize(Roles = "Admin, Administradorm, Empleado")]
 
 <h3>ClientePage</h3>
 

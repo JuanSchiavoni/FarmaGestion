@@ -1,0 +1,16 @@
+﻿@page "/clientesReporte"
+@rendermode InteractiveServer
+@inject FarmaGestionContext context
+
+<h3>Reporte de Clientes</h3>
+
+<button class="btn btn-primary" @onclick="BuscarClientes">Buscar</button>
+
+@code {
+    List<Cliente>? clientes;
+
+    private void BuscarClientes()
+    {
+        clientes = context.Clientes.ToList();
+    }
+}
