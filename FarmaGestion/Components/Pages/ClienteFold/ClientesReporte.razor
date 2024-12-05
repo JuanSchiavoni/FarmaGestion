@@ -1,5 +1,5 @@
 ﻿@page "/clientesReporte"
-@*
+
 @rendermode InteractiveServer
 @inject FarmaGestionContext context
 
@@ -29,14 +29,14 @@ else
             </tr>
         </thead>
         <tbody>
-@*             @foreach (var item in clientes)
+             @foreach (var item in clientes)
             {
                 <tr>
                     <td>@item.Nombre</td>
                     <td>@item.Apellido</td>
                     <td>@item.DNI</td>
                 </tr>
-                @if (item.ProductosList != null && item.ProductosList.Count > 0)
+                @if (item.Productos != null && item.Productos.Count > 0)
                 {
                     <tr>
                         <td colspan="3">
@@ -52,7 +52,7 @@ else
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var itemProducto in item.ProductosList)
+                                    @foreach (var itemProducto in item.Productos)
                                     {
                                         <tr>
                                             <td>@itemProducto.Nombre</td>
@@ -67,45 +67,44 @@ else
             }
         </tbody>
     </table> 
-}*@
+}
 
 @code {
-    List<Cliente>? clientes;
+    List<ClienteReporteModel>? clientes;
     string filtroNombreCliente = "";
 
-    // private void BuscarClientes()
-    // {
-    //     if(filtroNombreCliente != "")
-    //     {
-    //         clientes = context.Clientes.Include("ProductosList")
-    //         .Where(c => c.Nombre.Contains(filtroNombreCliente) || 
-    //         c.Apellido.Contains(filtroNombreCliente))
-    //         .Select(c => new ClienteReporteModel()
-    //         {
-    //             Nombre = c.Nombre,
-    //             Apellido = c.Apellido,
-    //             DNI = c.DNI,
-    //             Productos = c.ProductosList
-    //         }).ToList();
-    //     }
-    //     else
-    //     {
-    //         clientes = context.Clientes.Include("ProductosList")
-    //         .Select(c => new ClienteReporteModel()
-    //             {
-    //                 Nombre = c.Nombre,
-    //                 Apellido = c.Apellido,
-    //                 DNI = c.DNI,
-    //                 Productos = c.ProductosList
-    //             }).ToList();
-    //     }
-    // }
+    private void BuscarClientes()
+    {
+        if (filtroNombreCliente != "")
+        {
+            clientes = context.Clientes.Include("ProductosList")
+            .Where(c => c.Nombre.Contains(filtroNombreCliente) || c.Apellido.Contains(filtroNombreCliente))
+            .Select(c => new ClienteReporteModel()
+                {
+                    Nombre = c.Nombre,
+                    Apellido = c.Apellido,
+                    DNI = c.DNI,
+                    Productos = c.ProductosList
+                }).ToList();
+        }
+        else
+        {
+            clientes = context.Clientes.Include("ProductosList")
+            .Select(c => new ClienteReporteModel()
+                {
+                    Nombre = c.Nombre,
+                    Apellido = c.Apellido,
+                    DNI = c.DNI,
+                    Productos = c.ProductosList
+                }).ToList();
+        }
+    }
 
     private class ClienteReporteModel
     {
         public string Nombre { get; set; } = string.Empty;
         public string Apellido { get; set; } = string.Empty;
         public long DNI { get; set; } = 0;
-        public List<Producto> Productos { get; set; }
+        public List<Producto>? Productos { get; set; }
     }
 }
