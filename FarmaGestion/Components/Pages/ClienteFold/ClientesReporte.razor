@@ -1,16 +1,111 @@
 ﻿@page "/clientesReporte"
+@*
 @rendermode InteractiveServer
 @inject FarmaGestionContext context
 
 <h3>Reporte de Clientes</h3>
 
+Nombre Cliente
+<input type="text" @bind-value="filtroNombreCliente"/>
 <button class="btn btn-primary" @onclick="BuscarClientes">Buscar</button>
+
+@if(clientes == null){
+    <h4>Presione Buscar para mostrar el reporte</h4>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Apellido
+                </th>
+                <th>
+                    DNI
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+@*             @foreach (var item in clientes)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td>@item.Apellido</td>
+                    <td>@item.DNI</td>
+                </tr>
+                @if (item.ProductosList != null && item.ProductosList.Count > 0)
+                {
+                    <tr>
+                        <td colspan="3">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Nombre
+                                        </th>
+                                        <th>
+                                            Precio
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var itemProducto in item.ProductosList)
+                                    {
+                                        <tr>
+                                            <td>@itemProducto.Nombre</td>
+                                            <td>@itemProducto.Precio</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table> 
+}*@
 
 @code {
     List<Cliente>? clientes;
+    string filtroNombreCliente = "";
 
-    private void BuscarClientes()
+    // private void BuscarClientes()
+    // {
+    //     if(filtroNombreCliente != "")
+    //     {
+    //         clientes = context.Clientes.Include("ProductosList")
+    //         .Where(c => c.Nombre.Contains(filtroNombreCliente) || 
+    //         c.Apellido.Contains(filtroNombreCliente))
+    //         .Select(c => new ClienteReporteModel()
+    //         {
+    //             Nombre = c.Nombre,
+    //             Apellido = c.Apellido,
+    //             DNI = c.DNI,
+    //             Productos = c.ProductosList
+    //         }).ToList();
+    //     }
+    //     else
+    //     {
+    //         clientes = context.Clientes.Include("ProductosList")
+    //         .Select(c => new ClienteReporteModel()
+    //             {
+    //                 Nombre = c.Nombre,
+    //                 Apellido = c.Apellido,
+    //                 DNI = c.DNI,
+    //                 Productos = c.ProductosList
+    //             }).ToList();
+    //     }
+    // }
+
+    private class ClienteReporteModel
     {
-        clientes = context.Clientes.ToList();
+        public string Nombre { get; set; } = string.Empty;
+        public string Apellido { get; set; } = string.Empty;
+        public long DNI { get; set; } = 0;
+        public List<Producto> Productos { get; set; }
     }
 }

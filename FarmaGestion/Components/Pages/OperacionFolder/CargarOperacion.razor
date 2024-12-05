@@ -1,0 +1,112 @@
+﻿@page "/operacion"
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Admin, Administradorm, Empleado")]
+@inject FarmaGestionContext context
+
+<h3>Agregar Productos al Cliente</h3>
+
+@if(Data == null)
+{
+    <button type="button" class="btn btn-primary" @onclick="AgregarProducto">Agregar</button>
+}
+else
+{
+    <form>
+        <div class="mb-3">
+            <label for="message-cliente" class="col-form-label">Cliente:</label>
+            @if (clientesList != null)
+            {
+                <div class="mb-3">
+                    <InputSelect class="form-control" @bind-Value="Data.ID" placeholder="Cliente" id="message-cliente">
+                        @foreach (var item in clientesList)
+                        {
+                            <option value="@item.ID">@($"{item.Nombre} {item.Apellido}")</option>
+                        }
+                    </InputSelect>
+                </div>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="recipient-alumno" class="col-form-label">Alumno:</label>
+            <div class="mb-3">
+                <InputSelect class="form-control" @bind-Value="productoAgregarID" placeholder="Producto" id="message-Producto">
+                    @foreach (var item in productosList)
+                    {
+                        <option value="@item.ID">@($"{item.Nombre} {item.Precio}")</option>
+                    }
+                </InputSelect>
+                    <button type="button" class="btn btn-primary" @onclick="AgregarProducto">Agregar producto</button>
+                </div>
+          
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Precio
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Data.ProductosList)
+                    {
+                        <tr>
+                            <td>@item.Nombre</td>
+                            <td>@item.Precio</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancelar">Cancelar</button>
+        <button type="button" class="btn btn-primary" @onclick="GuardarProductos">Guardar</button>
+    </div>
+}
+
+
+@code {
+
+    private Cliente? Data { get; set; }
+    private List<Cliente>? clientesList { get;set; }
+    private List<Producto>? productosList { get; set; }
+    private Guid productoAgregarID = Guid.NewGuid();
+
+    private void AgregarProducto()
+    {
+        Data = new();
+        clientesList = context.Clientes.ToList();
+        productosList = context.Productos.ToList();
+        if(productosList != null)
+        {
+            Producto prodSelect = productosList.First(a => a.ID == productoAgregarID);
+            Data.ProductosList.Add(prodSelect);
+        }
+
+        productoAgregarID = Guid.NewGuid();
+    }
+
+    private void GuardarProductos()
+    {
+        context.Clientes.Add(Data);
+        context.SaveChanges();
+        LimpiarDatos();
+    }
+
+    private void Cancelar()
+    {
+        LimpiarDatos();
+    }
+
+    private void LimpiarDatos()
+    {
+        Data = null;
+        clientesList = null;
+        productosList = null;
+        productoAgregarID = Guid.NewGuid();
+    }
+}
