@@ -27,7 +27,7 @@ else
             }
         </div>
         <div class="mb-3">
-            <label for="recipient-producto" class="col-form-label">Producto:</label>
+            <label for="recipient-alumno" class="col-form-label">Alumno:</label>
             <div class="mb-3">
                 <InputSelect class="form-control" @bind-Value="productoAgregarID" placeholder="Producto" id="message-Producto">
                     @foreach (var item in productosList)
@@ -81,7 +81,7 @@ else
         Data = new();
         clientesList = context.Clientes.ToList();
         productosList = context.Productos.ToList();
-        if (productosList != null && productosList.Any(a => a.ID == productoAgregarID))
+        if(productosList != null && productosList.Any(a => a.ID == productoAgregarID))
         {
             Producto prodSelect = productosList.First(a => a.ID == productoAgregarID);
             Data.ProductosList.Add(prodSelect);
